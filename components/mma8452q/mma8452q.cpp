@@ -397,6 +397,12 @@ void MMA8452QComponent::update() {
   //pitch   = atan2((- accel_x) , sqrt(accel_y * accel_y + accel_z * accel_z)) * 57.3;
   roll   = atan2 ( -accel_x, accel_z) * 57.3;
   pitch  = atan2 (  accel_y, sqrt(accel_z * accel_z + accel_x * accel_x) ) * 57.3;
+  if ( always_look_down_ && ( accel_z < 0 ) ) {
+    accel_z = -accel_z;
+    accel_x = -accel_x;
+    accel_y = -accel_y;
+  }
+
 
   ESP_LOGD(TAG,
            "Got accel={x=%.3f m/s², y=%.3f m/s², z=%.3f m/s²}, ",

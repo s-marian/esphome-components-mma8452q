@@ -116,6 +116,7 @@ class MMA8452QComponent : public PollingComponent, public i2c::I2CDevice {
   void set_accel_z_sensor(sensor::Sensor *accel_z_sensor) { accel_z_sensor_ = accel_z_sensor; }
   void set_roll_sensor(sensor::Sensor *roll_sensor) { roll_sensor_ = roll_sensor; }
   void set_pitch_sensor(sensor::Sensor *pitch_sensor) { pitch_sensor_ = pitch_sensor; }
+  void set_always_look_down(bool flag) { always_look_down_ = flag; }
 
  protected:
   sensor::Sensor *accel_x_sensor_{nullptr};
@@ -128,6 +129,7 @@ class MMA8452QComponent : public PollingComponent, public i2c::I2CDevice {
  private:
   MMA8452Q_Scale scale;
   MMA8452Q_ODR odr;
+  bool always_look_down_ {false};
 
   void writeRegister(MMA8452Q_Register reg, byte data);
   void writeRegisters(MMA8452Q_Register reg, byte *buffer, byte len);
