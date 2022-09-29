@@ -75,17 +75,16 @@ async def to_code(config):
             cg.add(getattr(var, f"set_accel_{d}_sensor")(sens))
 
     roll_key = f"roll"
-    if "roll" in config:
+    if roll_key in config:
         sens = await sensor.new_sensor(config[roll_key])
         cg.add(getattr(var, f"set_roll_sensor")(sens))
             
 
 
     pitch_key = f"pitch"
-    if "pitch" in config:
+    if pitch_key in config:
         sens = await sensor.new_sensor(config[pitch_key])
         cg.add(getattr(var, f"set_pitch_sensor")(sens))
-            
 
     if CONF_ALWAYS_DOWN in config:
         cg.add(var.set_always_look_down(config[CONF_ALWAYS_DOWN]))

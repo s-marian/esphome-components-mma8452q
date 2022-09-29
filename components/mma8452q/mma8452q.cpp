@@ -5,6 +5,7 @@ namespace esphome {
 namespace mma8452q {
 
 #define R2D(x) ( (x) * 57.3 )
+
 static const char *const TAG = "mma8452q";
 
 const uint8_t MMA8452Q_REGISTER_WHO_AM_I = 0x75;
