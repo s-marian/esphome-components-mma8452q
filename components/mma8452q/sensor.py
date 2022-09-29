@@ -22,6 +22,7 @@ CONF_ACCEL_Z = "accel_z"
 CONF_ROLL    = "roll"
 CONF_PITCH   = "pitch"
 CONF_ALWAYS_DOWN = "always_look_down"
+CONF_ORIENTATION = "orientation"
 
 mma8452q_ns = cg.esphome_ns.namespace("mma8452q")
 MMA8452QComponent = mma8452q_ns.class_(
@@ -52,6 +53,7 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_ACCEL_Y): accel_schema,
             cv.Optional(CONF_ACCEL_Z): accel_schema,
             cv.Optional(CONF_ALWAYS_DOWN): cv.boolean,
+            cv.Optional(CONF_ORIENTATION): cv.one_of("xy", "yx"),
             cv.Optional(CONF_ROLL): angle_schema,
             cv.Optional(CONF_PITCH): angle_schema
         }
@@ -87,3 +89,6 @@ async def to_code(config):
 
     if CONF_ALWAYS_DOWN in config:
         cg.add(var.set_always_look_down(config[CONF_ALWAYS_DOWN]))
+
+    if CONF_ORIENTATION in config:
+        cg.add(var.set_orientation(config[CONF_ORIENTATION]))

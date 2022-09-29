@@ -4,6 +4,7 @@
 namespace esphome {
 namespace mma8452q {
 
+#define R2D(x) ( (x) * 57.3 )
 static const char *const TAG = "mma8452q";
 
 const uint8_t MMA8452Q_REGISTER_WHO_AM_I = 0x75;
@@ -386,6 +387,8 @@ void MMA8452QComponent::update() {
   
   readRegisters(OUT_X_MSB, rawData, 6); // Read the six raw data registers into data array
   
+
+
   x = ((short)(rawData[0] << 8 | rawData[1])) >> 4;
   y = ((short)(rawData[2] << 8 | rawData[3])) >> 4;
   z = ((short)(rawData[4] << 8 | rawData[5])) >> 4;
@@ -393,15 +396,30 @@ void MMA8452QComponent::update() {
   accel_y = (float)y / (float)(1 << 11) * (float)(scale);
   accel_z = (float)z / (float)(1 << 11) * (float)(scale);
 
-  //roll    = atan2(accel_y , accel_z) * 57.3;
-  //pitch   = atan2((- accel_x) , sqrt(accel_y * accel_y + accel_z * accel_z)) * 57.3;
-  roll   = atan2 ( -accel_x, accel_z) * 57.3;
-  pitch  = atan2 (  accel_y, sqrt(accel_z * accel_z + accel_x * accel_x) ) * 57.3;
+
+
   if ( always_look_down_ && ( accel_z < 0 ) ) {
     accel_z = -accel_z;
     accel_x = -accel_x;
     accel_y = -accel_y;
   }
+
+
+  //  YX orientation: the sensor is rotated against X then raised against Y
+  // roll means left-right rotation
+  // pitch is forward-backward
+
+  if( orientation_ == "xy" ) {
+    roll    = atan2(accel_y , accel_z);
+    pitch   = atan2((- accel_x) , sqrt(accel_y * accel_y + accel_z * accel_z));
+  } else {
+    roll   = atan2 ( -accel_x, accel_z);
+    pitch  = atan2 (  accel_y, sqrt(accel_z * accel_z + accel_x * accel_x) );
+  }
+
+  roll = R2D(roll);
+  pitch = R2D(pitch);
+
 
 
   ESP_LOGD(TAG,
