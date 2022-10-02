@@ -399,8 +399,14 @@ void MMA8452QComponent::update() {
 
 
 
-  if ( always_look_down_ && ( accel_z < 0 ) ) {
-    accel_z = -accel_z;
+//  if ( always_look_down_ && ( accel_z < 0 ) ) {
+//    accel_z = -accel_z;
+//    accel_x = accel_x;
+//    accel_y = -accel_y;
+//  }
+
+  if ( always_look_down_ && ( accel_y > 0 ) ) {
+    accel_z = accel_z;
     accel_x = -accel_x;
     accel_y = -accel_y;
   }
