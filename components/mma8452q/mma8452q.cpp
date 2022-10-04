@@ -448,38 +448,6 @@ void MMA8452QComponent::update() {
 
   this->status_clear_warning();
 
-
-
-
-
-
-/*
-  uint16_t raw_data[7];
-  if (!this->read_bytes_16(MMA8452Q_REGISTER_ACCEL_XOUT_H, raw_data, 7)) {
-    this->status_set_warning();
-    return;
-  }
-  auto *data = reinterpret_cast<int16_t *>(raw_data);
-
-  float accel_x = data[0] * MMA8452Q_RANGE_PER_DIGIT_2G * GRAVITY_EARTH;
-  float accel_y = data[1] * MMA8452Q_RANGE_PER_DIGIT_2G * GRAVITY_EARTH;
-  float accel_z = data[2] * MMA8452Q_RANGE_PER_DIGIT_2G * GRAVITY_EARTH;
-
-
-  ESP_LOGD(TAG,
-           "Got accel={x=%.3f m/s², y=%.3f m/s², z=%.3f m/s²}, ",
-           accel_x, accel_y, accel_z);
-
-  if (this->accel_x_sensor_ != nullptr)
-    this->accel_x_sensor_->publish_state(accel_x);
-  if (this->accel_y_sensor_ != nullptr)
-    this->accel_y_sensor_->publish_state(accel_y);
-  if (this->accel_z_sensor_ != nullptr)
-    this->accel_z_sensor_->publish_state(accel_z);
-
-  this->status_clear_warning();
-*/
-
 }
 float MMA8452QComponent::get_setup_priority() const { return setup_priority::DATA; }
 
