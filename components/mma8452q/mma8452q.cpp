@@ -397,18 +397,18 @@ void MMA8452QComponent::update() {
   accel_y = (float)y / (float)(1 << 11) * (float)(scale);
   accel_z = (float)z / (float)(1 << 11) * (float)(scale);
 
+  if ( always_look_down_ ) {
+    if ( accel_z < 0 ) {
+      accel_z = -accel_z;
+      accel_x = -accel_x;
+      accel_y = accel_y;
+    }
 
-
-//  if ( always_look_down_ && ( accel_z < 0 ) ) {
-//    accel_z = -accel_z;
-//    accel_x = accel_x;
-//    accel_y = -accel_y;
-//  }
-
-  if ( always_look_down_ && ( accel_y > 0 ) ) {
-    accel_z = accel_z;
-    accel_x = -accel_x;
-    accel_y = -accel_y;
+    if ( accel_y > 0 ) {
+      accel_z = accel_z;
+      accel_x = -accel_x;
+      accel_y = -accel_y;
+    }
   }
 
 
